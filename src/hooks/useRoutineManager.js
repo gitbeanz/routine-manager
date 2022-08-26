@@ -7,11 +7,14 @@ const useRoutineManager = () => {
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
+        if (!routineArray.includes(currentRoutine)){
         setCount(count + 1);
         setRoutineArray([...routineArray, currentRoutine]);
+        }
     }
 
     const handleRoutineName = (routine) => {
+        //console.log('this now passed', routine);
         setCurrentRoutine(routine);
         return currentRoutine;
     }
