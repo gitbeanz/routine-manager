@@ -6,6 +6,7 @@ const useRoutineManager = () => {
     const [currentRoutine, setCurrentRoutine] = useState("");
     const [modal, showModal] = useState(false);
     const [errorMessage, setMessage] = useState('');
+    const [homeStatus, setHomeState] = useState(true);
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -30,8 +31,19 @@ const useRoutineManager = () => {
         setCurrentRoutine(routine);
         return currentRoutine;
     }
+    const routinePageOpen = () =>{
+        console.log('this clicked');
+        setHomeState(false);
+        console.log(homeStatus);
+        return homeStatus;
+    }
+    const homePageOpen = () =>{
+        setHomeState(true);
+        console.log(homeStatus);
+        return homeStatus;
+    }
 
-    return { count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage};
+    return { count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen};
 }
 
 export default useRoutineManager;
