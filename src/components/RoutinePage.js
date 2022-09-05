@@ -5,17 +5,37 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faAdd } from '@fortawesome/free-solid-svg-icons'
 import useRoutineManager from '../hooks/useRoutineManager'
 import Add from './Add'
+import Error from './Error'
+import Trash from './Trash'
 export default function RoutinePage(props) {
-  const {addModal, setAddModal } = useRoutineManager();
+  const {trashModal, setTrashModal, addModal, setAddModal, modal, showModal } = useRoutineManager();
+  var errorMessage = "Whoops! You can't start a routine without adding a task. Click anywhere to try again"
   function handleAdd(){
     setAddModal(true);
+  }
+  function handleTrash(){
+    setTrashModal(true);
   }
   function cancelTask(){
     setAddModal(false);
   }
+  function handleErrorClick(){
+    showModal(false);
+  }
+  function handleStart(){
+    showModal(true);
+  }
+  function cancelDelete(){
+    setTrashModal(false);
+  }
+  function confirmDelete(){
+    props.deleteFunct(props.title);
+  }
   return (
     <div>
       {addModal && <Add cancelFunct={cancelTask}/>}
+      {modal && <Error  clickFunct={handleErrorClick}errorText={errorMessage} />}
+      {trashModal && <Trash deleteFunct={confirmDelete}cancelFunct={cancelDelete}/>}
     <div className='routine-div'>
         <h1 className='routine-title'>{props.title}</h1>
         <button className='routine-home-button'onClick={props.clickFunct}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
@@ -23,7 +43,7 @@ export default function RoutinePage(props) {
         <h2 className='routine-task-title'>My Tasks (0)</h2>
     </div>
     <div className='routine-task-section'></div>
-    <div className='routine-task-options'><button className='routine-button' onClick={handleAdd}><FontAwesomeIcon icon={faAdd}></FontAwesomeIcon></button><button className='routine-start-button'>Start</button><button className='routine-button'><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button></div>
+    <div className='routine-task-options'><button className='routine-button' onClick={handleAdd}><FontAwesomeIcon icon={faAdd}></FontAwesomeIcon></button><button className='routine-start-button' onClick={handleStart}>Start</button><button onClick={handleTrash} className='routine-button'><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button></div>
     <hr className="divider"/>
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
     </div>
