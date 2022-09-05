@@ -8,7 +8,7 @@ let routineOpened = '';
 
 export default function Home() {
     const ref = useRef();
-    const { count, handleCountClick, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData} = useRoutineManager();
+    const { routineDelete, count, handleCountClick, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData} = useRoutineManager();
     useEffect(()=>{
       console.log('change detected');
     },[homeStatus])
@@ -54,6 +54,10 @@ export default function Home() {
     function handleHomeOpen(){
       homePageOpen();
     }
+    function handleRoutineDelete(id){
+      console.log(id);
+      routineDelete(id);
+    }
   return (
     <div>
       {homeStatus &&<div>
@@ -69,7 +73,7 @@ export default function Home() {
         <hr className="divider"/>
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>}
-        {!homeStatus && <RoutinePage clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time}/>}
+        {!homeStatus && <RoutinePage deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time}/>}
     </div>
   )
 }
