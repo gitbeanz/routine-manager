@@ -119,16 +119,17 @@ footer{
   right: 0;
   bottom: 0;
   cursor: pointer;
+  z-index: 10;
 }
 .error-box{
-  width: 320px;
-  height: 100px;
+  width: 300px;
+  height: 55px;
   border-radius: 10px;
   border: 2px solid black;
   margin: auto;
   position: relative;
   top: 50%;
-  font-size: 1.25em;
+  font-size: 1em;
   text-align: center;
   background-color: white;
   z-index: 10;
@@ -286,4 +287,47 @@ footer{
   top: 65px;
   left: 20px;
 
+}
+.delete-msg{
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
+  font-size: 1.25em;
+}
+.trash-box{
+  display: block;
+  width: 320px;
+  height: 150px;
+  background-color: white;
+  border: 2px solid black;
+  position: relative;
+  top: 200px;
+  border-radius: 10px;
+  margin: auto;
+}
+.trash-cancel-button{
+  width: auto;
+  height: 45px;
+  border-radius: 10px;
+  background-color: #434743;
+  font-size: 2em;
+  color: white;
+  cursor:pointer;
+  margin: 0px 10px;
+  position: relative;
+  top: 0px;
+  left: 35px;
+}
+.trash-yes-button{
+  width: auto;
+  height: 45px;
+  border-radius: 10px;
+  background-color: #434743;
+  font-size: 2em;
+  color: white;
+  cursor: pointer;
+  margin: 0px 10px;
+  position: relative;
+  top: 0px;
+  left: 50px;
 }
