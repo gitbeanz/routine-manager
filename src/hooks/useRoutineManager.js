@@ -13,6 +13,7 @@ const useRoutineManager = () => {
     const [addModal, setAddModal] = useState(false);
     const [trashModal, setTrashModal] = useState(false);
     const [currentTime, setTime] = useState(0);
+    const [currentTask, setTask] = useState('');
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -86,9 +87,13 @@ const useRoutineManager = () => {
             console.log(currentTime);
             } 
         }
+    const taskChange = (name)=>{
+        setTask(name);
+    }
+    
 
 
-    return { count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime};
+    return { count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;

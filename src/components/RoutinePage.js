@@ -8,7 +8,7 @@ import Add from './Add'
 import Error from './Error'
 import Trash from './Trash'
 export default function RoutinePage(props) {
-  const {timeChange, trashModal, setTrashModal, addModal, setAddModal, modal, showModal } = useRoutineManager();
+  const {taskChange, timeChange, trashModal, setTrashModal, addModal, setAddModal, modal, showModal } = useRoutineManager();
   var errorMessage = "Whoops! You can't start a routine without adding a task. Click anywhere to try again"
   function handleAdd(){
     setAddModal(true);
@@ -31,14 +31,7 @@ export default function RoutinePage(props) {
   function confirmDelete(){
     props.deleteFunct(props.title);
   }
-  function handleChange(event){
-    console.log(event.target.value);
-  }
   function handleTimeChange(event){
-    
-    if ((event.target.value.length === 1)&&((event.target.value !== '0')||(event.target.value !== '1')||(event.target.valee !== '2')||(event.target.value !== '3')||(event.target.value !== '4')||(event.target.value !== '5')||(event.target.value !== '6')||(event.target.value !== '7')||(event.target.value !== '8')||(event.target.value !== '9'))){
-      console.log('hi');
-    }
     if (event.target.value.length > 2){
       //console.log('too long');
       event.target.value = event.target.value.slice(0,2);
@@ -46,9 +39,16 @@ export default function RoutinePage(props) {
     ;
     timeChange(event.target.value);
   }
+  function handleTaskChange(event){
+    taskChange(event.target.value);
+  }
+  function handleAddTask(){
+    ;
+  }
+
   return (
     <div>
-      {addModal && <Add changeFunct={handleChange} changeFunctTime={handleTimeChange} cancelFunct={cancelTask}/>}
+      {addModal && <Add changeFunct={handleTaskChange} changeFunctTime={handleTimeChange} cancelFunct={cancelTask}/>}
       {modal && <Error  clickFunct={handleErrorClick}errorText={errorMessage} />}
       {trashModal && <Trash deleteFunct={confirmDelete}cancelFunct={cancelDelete}/>}
     <div className='routine-div'>
