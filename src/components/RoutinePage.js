@@ -7,8 +7,9 @@ import useRoutineManager from '../hooks/useRoutineManager'
 import Add from './Add'
 import Error from './Error'
 import Trash from './Trash'
+import Task from './Task'
 export default function RoutinePage(props) {
-  const {taskChange, timeChange, trashModal, setTrashModal, addModal, setAddModal, modal, showModal } = useRoutineManager();
+  const {taskCount, taskArray, taskChange, timeChange, trashModal, setTrashModal, addModal, setAddModal, modal, showModal, addTask } = useRoutineManager();
   var errorMessage = "Whoops! You can't start a routine without adding a task. Click anywhere to try again"
   function handleAdd(){
     setAddModal(true);
@@ -43,24 +44,29 @@ export default function RoutinePage(props) {
     taskChange(event.target.value);
   }
   function handleAddTask(){
-    ;
+    addTask();
+    console.log(taskArray);
+    setAddModal(false);
   }
-
+  //console.log(typeof(taskArray));
+  var renderedTasks = taskArray.map(item => <Task title={item.title} subtitle={item.time} routineClass='new' key={item.title}/>);
   return (
     <div>
-      {addModal && <Add changeFunct={handleTaskChange} changeFunctTime={handleTimeChange} cancelFunct={cancelTask}/>}
+      {addModal && <Add addFunct={handleAddTask}changeFunct={handleTaskChange} changeFunctTime={handleTimeChange} cancelFunct={cancelTask}/>}
       {modal && <Error  clickFunct={handleErrorClick}errorText={errorMessage} />}
       {trashModal && <Trash deleteFunct={confirmDelete}cancelFunct={cancelDelete}/>}
     <div className='routine-div'>
         <h1 className='routine-title'>{props.title}</h1>
         <button className='routine-home-button'onClick={props.clickFunct}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
         <h2 className='routine-subtitle'>{props.time} minutes</h2>
-        <h2 className='routine-task-title'>My Tasks (0)</h2>
+        <h2 className='routine-task-title'>My Tasks ({taskCount})</h2>
     </div>
-    <div className='routine-task-section'></div>
+    <div className='routine-task-section'>
+      {renderedTasks}
+    </div>
     <div className='routine-task-options'><button className='routine-button' onClick={handleAdd}><FontAwesomeIcon icon={faAdd}></FontAwesomeIcon></button><button className='routine-start-button' onClick={handleStart}>Start</button><button onClick={handleTrash} className='routine-button'><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button></div>
     <hr className="divider"/>
-        <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
+        <footer >© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
     </div>
   )
 }
