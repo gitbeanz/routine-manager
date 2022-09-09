@@ -14,6 +14,10 @@ const useRoutineManager = () => {
     const [trashModal, setTrashModal] = useState(false);
     const [currentTime, setTime] = useState(0);
     const [currentTask, setTask] = useState('');
+    const [taskError, setTaskError] = useState('');
+    const [taskModal, showTaskModal] = useState(false);
+    const [taskCount, setTaskCount] = useState(0);
+    const [taskArray, setTaskArray] = useState([]);
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -83,17 +87,39 @@ const useRoutineManager = () => {
             ;
         }
         else{
-            setTime(parseInt(number));
+            setTime(number);
             console.log(currentTime);
             } 
         }
     const taskChange = (name)=>{
         setTask(name);
     }
-    
+    const addTask = () =>{
+        //check if task name is within bounds (will figure out later)
+        //check if minutes does not contain a period
+        if (periodDetected()){
+            showTaskModal(true);
+            setTaskError('Whoops! Add an integer (no decimals)');
+        }
+        else{
+            setTaskCount(taskCount+1);
+            let newTaskData = {title: currentTask, time: currentTime};
+            setTaskArray([...taskArray, newTaskData]);
+            console.log(taskArray)
+            
+        }
+    }
+    function periodDetected(){
+        let returnValue = false;
+        for (let i = 0; i < currentTime.length; i++){
+            if (currentTime[i]==='.'){
+                returnValue = true;
+            }
+        }
+        return returnValue;
+    }
 
-
-    return { count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    return { taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
