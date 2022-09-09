@@ -12,8 +12,8 @@ export default function Add(props) {
                 <input className='name-input' placeholder='Enter task name...' onChange={event => props.changeFunct(event) }></input>
                 <label className='time' required>Minutes</label>
                 <input type='number' min='1' step='1' className='time-input' placeholder='Enter time... (min)' onChange={event => props.changeFunctTime(event) }></input>
-                <button className='add-button' onClick={props.handleAddTask}><FontAwesomeIcon icon={faAdd}/></button>
-                <button className='cancel-button' onClick={props.cancelFunct}>Cancel</button>
+                <button type='button'className='add-button' onClick={props.addFunct}><FontAwesomeIcon icon={faAdd}/></button>
+                <button  type='button' className='cancel-button' onClick={props.cancelFunct}>Cancel</button>
             </form>
         </div>
     </div>
