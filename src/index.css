@@ -106,6 +106,13 @@ footer{
   font-size: 0.75em;
   text-align: center;
 }
+.routine-page-footer{
+  color: #C8C4C4;
+  font-size: 0.75em;
+  text-align: center;
+  position: relative;
+  bottom: 10px;
+}
 
 .error-overlay{
   display: block;
@@ -173,7 +180,8 @@ footer{
   width: 100%;
   display: block;
   margin: auto;
-  height: 310px;
+  margin-bottom: 10px;
+  height: 300px;
   overflow-y: scroll;
 }
 .routine-task-options{
@@ -333,3 +341,14 @@ footer{
   top: 0px;
   left: 50px;
 }
+.time-subtitle{
+  padding: 0px;
+  margin: 0px;
+  font-size: 0.50em;
+  font-weight: bold;
+  position: relative;
+  color: #C8C4C4;
+  right: 125px;
+  bottom: 10px;
+  z-index: -1;
+} 
