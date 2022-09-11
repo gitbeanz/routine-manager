@@ -4,11 +4,10 @@ import Form from './Form'
 import Routine from './Routine';
 import Error from './Error';
 import RoutinePage from './RoutinePage';
-let routineOpened = '';
 
 export default function Home() {
     const ref = useRef();
-    const {selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData} = useRoutineManager();
+    const {checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData} = useRoutineManager();
     useEffect(()=>{
       //console.log('change detected');
     },[homeStatus])
@@ -46,9 +45,13 @@ export default function Home() {
       console.log('THIS CALLED')
       if (event.target.firstChild.innerHTML === '0 min'){
         setTotalTime(0);
+        setTaskArray([]);
+        setTaskCount(0);
       }
       else{
         setTotalTime(dataArray.find(element=>element.title === selectedRoutine).time)
+        setTaskArray(dataArray.find(element=>element.title === selectedRoutine).taskArray);
+        setTaskCount(dataArray.find(element=>element.title === selectedRoutine).taskArray.length);
       }
       setRoutineOpened(selectedRoutine);
       selectRoutineData(selectedRoutine)
@@ -57,7 +60,8 @@ export default function Home() {
     function handleHomeOpen(){
       console.log(routineOpened);
       console.log(currentTotalTime);
-      homePageUpdate(routineOpened, currentTotalTime);
+      console.log(taskArray);
+      homePageUpdate(routineOpened, currentTotalTime, taskArray);
       homePageOpen();
       console.log('PRINTING DATA ARRAY');
       dataArray.forEach((element)=>{
@@ -67,6 +71,10 @@ export default function Home() {
     function handleRoutineDelete(id){
       console.log(id);
       routineDelete(id);
+    }
+    function handleTaskDelete(id){
+      console.log('now this ran');
+      taskDelete(id);
     }
   return (
     <div>
@@ -83,7 +91,7 @@ export default function Home() {
         <hr className="divider"/>
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>}
-        {!homeStatus && <RoutinePage timeSet={setTotalTime} totalTime={currentTotalTime} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time}/>}
+        {!homeStatus && <RoutinePage checkTaskValidity={checkTaskValidity} setTime={setTime}setTask={setTask}task={currentTask}taskTime={currentTime} taskCount={taskCount}timeChange={timeChange} taskChange={taskChange} timeSet={setTotalTime} totalTime={currentTotalTime} deleteTaskFunct={handleTaskDelete} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time} taskArray={taskArray} addTask={addTask}/>}
     </div>
   )
 }
