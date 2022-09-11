@@ -89,7 +89,7 @@ code {
   font-size: 0.50em;
   font-weight: bold;
   position: relative;
-  color: #ff2626;
+  color: #C8C4C4;
   right: 125px;
   bottom: 10px;
   z-index: -1;
@@ -97,8 +97,14 @@ code {
 
 .title{
   position: relative;
-  bottom: 62px;
+  bottom: 40px;
   z-indeX: -1;
+  text-overflow: ellipsis;
+  margin: auto;
+  width: 200px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 footer{
@@ -144,6 +150,10 @@ footer{
 .routine-title{
   text-align: left;
   padding-left: 10px;
+  width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .routine-home-button{
   position: relative;
@@ -161,6 +171,8 @@ footer{
   width: 375px;
   margin: auto;
   height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .routine-subtitle{
@@ -169,6 +181,7 @@ footer{
   padding-left: 10px;
   position: absolute;
   top: 45px;
+  margin: 0px;
 }
 
 .routine-task-title{
@@ -352,3 +365,19 @@ footer{
   bottom: 10px;
   z-index: -1;
 } 
+
+.task-error-div{
+  width: 300px;
+  height: 20px;
+  background-color: red;
+  position: relative;
+  margin: 0px auto;
+  z-index: 20;
+  top: 200px;
+  padding: 0px;
+}
+
+.task-error-div p{
+  text-align: center;
+  margin: 0px;
+}
