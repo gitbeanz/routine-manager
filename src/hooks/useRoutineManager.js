@@ -18,6 +18,11 @@ const useRoutineManager = () => {
     const [taskModal, showTaskModal] = useState(false);
     const [taskCount, setTaskCount] = useState(0);
     const [taskArray, setTaskArray] = useState([]);
+    const [currentTotalTime, setTotalTime] = useState(0);
+    const [routineOpened, setRoutineOpened] = useState("");
+    const [routineSubtitle, setRoutineSubtitle] = useState("NEW");
+    const [taskDeleteModal, showTaskDeleteModal] = useState(false);
+    const [taskSelected, setSelectedTask] = useState('');
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -25,13 +30,14 @@ const useRoutineManager = () => {
         if (!routineArray.includes(currentRoutine) && currentRoutine.length !== 0){
         setCount(count + 1);
         setRoutineArray([...routineArray, currentRoutine]);
+        makeRoutineData(currentRoutine, 0);
         }
         else if (routineArray.includes(currentRoutine)){
-            setMessage('Whoops! You already have a routine with this name. Click anywhere to try again')
+            setMessage('Whoops! You already have a routine with this name. Click anywhere to try again.')
             showModal(true);
         }
         else if (currentRoutine.length === 0){
-            setMessage("Whoops! Don't leave your routine name blank. Click anywhere to try again")
+            setMessage("Whoops! Don't leave your routine name blank. Click anywhere to try again.")
             showModal(true);
         }
         setCurrentRoutine('');
@@ -53,15 +59,18 @@ const useRoutineManager = () => {
         console.log(homeStatus);
         return homeStatus;
     }
-    const makeRoutineData = (title, time) => {
+    const selectRoutineData = (title, time) => {
         //make new routine data, add to routine array
-        setRoutineData({title: title, time: time, taskArray: []});
-        setDataArray([...dataArray, routineData]);
+        setRoutineData(dataArray.find((element)=>{return element.title === title}));
+    }
+    const makeRoutineData = (title,time) =>{
+        setDataArray([...dataArray, {title: title, time: time, taskData: []}]);
+        console.log(dataArray);
     }
     const routineDelete = (id) => {
         setDataArray(dataArray.filter(element => {
             if (element.title !== id){
-                console.log('found');
+                console.log('DATA FOUND');
                 return true;
             }
             else{
@@ -80,6 +89,21 @@ const useRoutineManager = () => {
         setCount(count -1);
         setHomeState(true);
     }
+    const taskDelete = (id) =>{
+        let deletedTaskTime = taskArray.find((element)=>{
+            return element.title === id
+        }).time
+        setTotalTime(currentTotalTime - deletedTaskTime)
+        setTaskArray(taskArray.filter(element=>{
+            if (element.title !== id){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }))
+        setTaskCount(taskCount-1);
+    }
     const timeChange = (number)=>{
         console.log(number);
         console.log(typeof(number));
@@ -97,29 +121,82 @@ const useRoutineManager = () => {
     const addTask = () =>{
         //check if task name is within bounds (will figure out later)
         //check if minutes does not contain a period
-        if (periodDetected()){
-            showTaskModal(true);
-            setTaskError('Whoops! Add an integer (no decimals)');
-        }
-        else{
             setTaskCount(taskCount+1);
             let newTaskData = {title: currentTask, time: currentTime};
             setTaskArray([...taskArray, newTaskData]);
-            console.log(taskArray)
-            
+            return newTaskData;
+    }
+    const checkTaskValidity = (task, time, taskArray) =>{
+        console.log(task);
+        if (periodDetected(time)){
+            showTaskModal(true);
+            setAddModal(false);
+            setTaskError('Whoops! Add an integer (no decimals). Click anywhere to try again.');
+            return false;
+        }
+        else if (parseInt(time)<= 0){
+            showTaskModal(true);
+            setAddModal(false);
+            setTaskError('Whoops! Add a positive integer. Click anywhere to try again.')
+            return false;
+        }
+        else if (task.length === 0){
+            showTaskModal(true);
+            setAddModal(false);
+            setTaskError("Whoops! Don't leave your task name blank. Click anywhere to try again.")
+            return false;
+        }
+        else if (duplicateDetected(task, taskArray)){
+            showTaskModal(true);
+            setAddModal(false);
+            setTaskError("Whoops! You already have a task with this name. Click anywhere to try again.")
+            return false;
+        }
+        else if (time.length === 0){
+            showTaskModal(true);
+            setAddModal(false);
+            setTaskError("Whoops! Don't leave your task minutes blank. Click anywhere to try again.")
+            return false;
+        }
+        else{
+            return true;
         }
     }
-    function periodDetected(){
+    function periodDetected(time){
         let returnValue = false;
-        for (let i = 0; i < currentTime.length; i++){
-            if (currentTime[i]==='.'){
+        for (let i = 0; i < time.length; i++){
+            if (time[i]==='.'){
                 returnValue = true;
             }
         }
         return returnValue;
     }
+    function duplicateDetected(task, taskArray){
+        console.log('duplicate funct called: ', task);
+        console.log(taskArray);
+        let returnValue = false;
+        for (let i = 0; i < taskArray.length; i++){
+            console.log('HI');
+            console.log(taskArray[i]);
+            if (taskArray[i].title === task){
+                console.log('duplicateFound');
+                returnValue = true;
+            }
+        }
+        return returnValue;
+    }
+    const homePageUpdate = (routineTitle, routineTotalTime, taskArray) =>{
+        setDataArray(dataArray.map(element=>{
+            if (element.title === routineTitle){
+                return {title: routineTitle, time: routineTotalTime, taskArray: taskArray};
+            }
+            else{
+                return element;
+            }
+        }))
+    }
 
-    return { taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    return {setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
