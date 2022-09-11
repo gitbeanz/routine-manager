@@ -44,8 +44,9 @@ export default function RoutinePage(props) {
     taskChange(event.target.value);
   }
   function handleAddTask(){
-    addTask();
+    let taskData = addTask();
     console.log(taskArray);
+    props.timeSet(props.totalTime+parseInt(taskData.time));
     setAddModal(false);
   }
   //console.log(typeof(taskArray));
@@ -58,14 +59,14 @@ export default function RoutinePage(props) {
     <div className='routine-div'>
         <h1 className='routine-title'>{props.title}</h1>
         <button className='routine-home-button'onClick={props.clickFunct}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
-        <h2 className='routine-subtitle'>{props.time} minutes</h2>
+        <h2 className='routine-subtitle'>{props.totalTime} minutes</h2>
         <h2 className='routine-task-title'>My Tasks ({taskCount})</h2>
     </div>
     <div className='routine-task-section'>
       {renderedTasks}
     </div>
     <div className='routine-task-options'><button className='routine-button' onClick={handleAdd}><FontAwesomeIcon icon={faAdd}></FontAwesomeIcon></button><button className='routine-start-button' onClick={handleStart}>Start</button><button onClick={handleTrash} className='routine-button'><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button></div>
-    <hr className="divider"/>
+    <hr className="divider"/> 
         <footer >© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
     </div>
   )
