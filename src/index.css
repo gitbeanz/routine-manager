@@ -15,6 +15,9 @@ code {
 .home-h1{
   text-align: center;
 }
+.play-h1{
+  text-align: center;
+}
 
 .home-h2{
   text-align: center;
@@ -380,4 +383,92 @@ footer{
 .task-error-div p{
   text-align: center;
   margin: 0px;
+}
+
+.play-div-titles{
+  height: 150px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.play-h2{
+  text-align: center;
+}
+.play-div-time{
+  width: 100%;
+  height: 120px;
+  margin-top: 20px;
+  
+}
+.play-h2-time{
+  text-align: center;
+}
+.play-h2-time-total{
+  text-align: center;
+  color: #C8C4C4;
+  position: relative;
+  bottom: 20px;
+}
+
+.play-div-options{
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.play-button{
+  width: 70px;
+  height: 45px;
+  border-radius: 10px;
+  background-color: #434743;
+  font-size: 2em;
+  color: white;
+  cursor:pointer;
+  margin: 0px 10px;
+}
+.play-div-bottom{
+  width: 100%;
+  height: 150px;
+  position: relative;
+  bottom: 25px;
+  margin-bottom: 23px;
+}
+.play-h2-up-next{
+  text-align: center;
+  color: #C8C4C4;
+  position: relative;
+  bottom: 35px;
+  
+}
+
+.play-home-button{
+  width: 70px;
+  height: 45px;
+  border-radius: 10px;
+  background-color: #434743;
+  font-size: 2em;
+  color: white;
+  cursor:pointer;
+  margin: 0px 10px;
+  text-align: center;
+}
+.play-div-button{
+  display: flex;
+  justify-content: center;
+}
+.play-h2-eta-time{
+  text-align: center;
+  position: relative;
+  top: 25px;
+}
+.play-h2-eta{
+  text-align: center;
+  color: #C8C4C4;
+}
+.play-h2-finish{
+  padding: 0px;
+  position: relative;
+  color: #3070EB;
 }
