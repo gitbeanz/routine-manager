@@ -23,6 +23,9 @@ const useRoutineManager = () => {
     const [routineSubtitle, setRoutineSubtitle] = useState("NEW");
     const [taskDeleteModal, showTaskDeleteModal] = useState(false);
     const [taskSelected, setSelectedTask] = useState('');
+    const [playStatus, setPlayState] = useState(false);
+    const [taskQueue, setTaskQueue] = useState([]);
+    const [nothingNext, setNothingNext] = useState(false);
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -196,7 +199,15 @@ const useRoutineManager = () => {
         }))
     }
 
-    return {setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    const enterPlayPage = () =>{
+        setPlayState(true);
+    }
+    const exitPlay = () =>{
+        setPlayState(false);
+        setHomeState(true);
+    }
+
+    return {nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
