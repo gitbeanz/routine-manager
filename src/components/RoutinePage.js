@@ -9,7 +9,7 @@ import Error from './Error'
 import Trash from './Trash'
 import Task from './Task'
 export default function RoutinePage(props) {
-  const {taskSelected, setSelectedTask, showTaskDeleteModal, taskDeleteModal, checkTaskValidity, taskModal, showTaskModal, taskError, taskCount, taskArray, taskChange, timeChange, trashModal, setTrashModal, addModal, setAddModal, modal, showModal, addTask } = useRoutineManager();
+  const {taskSelected, setSelectedTask, showTaskDeleteModal, taskDeleteModal, checkTaskValidity, taskModal, showTaskModal, taskError, taskArray, trashModal, setTrashModal, addModal, setAddModal, modal, showModal } = useRoutineManager();
   var errorMessage = "Whoops! You can't start a routine without adding a task. Click anywhere to try again"
   function handleAdd(){
     setAddModal(true);
@@ -28,7 +28,11 @@ export default function RoutinePage(props) {
     setAddModal(true);
   }
   function handleStart(){
+    if (props.taskCount === 0){
     showModal(true);
+    }
+    else{props.startPlay();
+    }
   }
   function cancelDelete(){
     setTrashModal(false);
