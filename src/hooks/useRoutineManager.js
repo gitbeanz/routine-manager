@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 
+
 const useRoutineManager = () => {
     const [count, setCount] = useState(0);
     const [routineArray, setRoutineArray] = useState([]) //each routine is an object
@@ -24,8 +25,11 @@ const useRoutineManager = () => {
     const [taskDeleteModal, showTaskDeleteModal] = useState(false);
     const [taskSelected, setSelectedTask] = useState('');
     const [playStatus, setPlayState] = useState(false);
-    const [taskQueue, setTaskQueue] = useState([]);
+    const [taskQueue, setTaskQueue] = useState(0);
+    const [nextTask, setNext] = useState(0);
     const [nothingNext, setNothingNext] = useState(false);
+    const [taskLength, setTaskLength] = useState(0);
+    const [estimatedTime, setEstimatedTime] = useState('');
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -206,8 +210,30 @@ const useRoutineManager = () => {
         setPlayState(false);
         setHomeState(true);
     }
+    const calculateEstimatedTime = () =>{
+        let futureTime = new Date();
+        futureTime.setMinutes(futureTime.getMinutes()+currentTotalTime);
+        let futureTimeString = futureTime.toLocaleTimeString();
+        let colonCount = 0;
+        let newTimeString = '';
+        for (let i = 0; i < futureTimeString.length; i++){
 
-    return {nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+            if (futureTimeString[i] === ':'){
+                colonCount += 1;
+            }
+            if (colonCount < 2){
+                newTimeString += futureTimeString[i];
+            }
+            else{
+                if ((futureTimeString[i] === 'A')||(futureTimeString[i] === 'M')||(futureTimeString[i] === 'P')||(futureTimeString[i] === ' ')){
+                    newTimeString += futureTimeString[i];
+                }
+            }
+        }
+        setEstimatedTime(newTimeString);
+    }
+
+    return {calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
