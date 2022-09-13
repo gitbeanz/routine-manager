@@ -8,7 +8,7 @@ import PlayPage from './PlayPage';
 
 export default function Home() {
     const ref = useRef();
-    const {nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
+    const {estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
     useEffect(()=>{
       //console.log('change detected');
     },[homeStatus])
@@ -78,53 +78,48 @@ export default function Home() {
       taskDelete(id);
     }
     function startPlay(){
+      //set up play page
       homePageUpdate(routineOpened, currentTotalTime, taskArray);
-      setTaskQueue(taskArray);
+      
+      setTaskQueue(0);
+      setNothingNext(false);
+      setNext(0);
+      calculateEstimatedTime();
       console.log(taskArray);
-      console.log(taskQueue);
-      checkIfNext();
+      if (taskArray.length > 1){
+        //there is more than 1 task, meaning there's at least one task that's up next
+        setNext(1);
+        setNothingNext(false);
+      }
+      else{
+        //only one task, nothing next!
+        setNothingNext(true);
+        console.log('there is nothing next');
+      }
+      
       enterPlayPage()
     }
     function exitPlayPage(){
       handleHomeOpen();
       exitPlay()
     }
-    function skipTask(){
-      console.log('this called');
-      checkIfNextSkip();
-      setTaskQueue(taskArray.filter((element, index)=>{
-        if (index === 0){
-          return false;
-        }
-        else{
-          return true;
-        }
-      }))
+   function skipTask(){
+    //first, check if this is the last task
+    if (taskQueue === taskArray.length-1){
+      //there is nothing to skip, finish the routine, send to summary page
+      setNothingNext(true);
     }
-    function checkIfNext(){
-      console.log('this logged!')
-      console.log(taskQueue);
-      if (taskQueue.length>1){
-        console.log('something next!');
-        setNothingNext(false);
-      }
-      else{
-        console.log('nothing next!!');
-        setNothingNext(true);
-      }
+    else if (taskQueue === taskArray.length-2){
+      //second to last
+      setNothingNext(true);
+      setTaskQueue(taskQueue+1);
     }
-    function checkIfNextSkip(){
-      console.log('this logged!')
-      console.log(taskQueue);
-      if (taskQueue.length-1>1){
-        console.log('something next!');
-        setNothingNext(false);
-      }
-      else{
-        console.log('nothing next!!');
-        setNothingNext(true);
-      }
+    else{
+      setNothingNext(false);
+      setTaskQueue(taskQueue+1);
+      setNext(nextTask+1);
     }
+   }
   return (
     <div>
       {homeStatus &&<div>
@@ -141,7 +136,7 @@ export default function Home() {
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>}
         {!homeStatus && !playStatus && <RoutinePage startPlay={startPlay}checkTaskValidity={checkTaskValidity} setTime={setTime}setTask={setTask}task={currentTask}taskTime={currentTime} taskCount={taskCount}timeChange={timeChange} taskChange={taskChange} timeSet={setTotalTime} totalTime={currentTotalTime} deleteTaskFunct={handleTaskDelete} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time} taskArray={taskArray} addTask={addTask}/>}
-        {!homeStatus && playStatus && <PlayPage skipTask={skipTask}nothingNext={nothingNext}setTaskQueue={setTaskQueue}taskQueue={taskQueue}exitPlayPage={exitPlayPage}title={routineData.title}/>}
+        {!homeStatus && playStatus && <PlayPage estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask}skipTask={skipTask}nothingNext={nothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}exitPlayPage={exitPlayPage}title={routineData.title}/>}
     </div>
   )
 }
