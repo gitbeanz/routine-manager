@@ -1,10 +1,9 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPause } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faFastForward } from '@fortawesome/free-solid-svg-icons'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
-import { faPlay } from '@fortawesome/free-solid-svg-icons'
+
 
 export default function Play(props) {
   
@@ -15,13 +14,11 @@ export default function Play(props) {
       </div>
       <div className='play-div-time'>
       <h2 className='play-h2'>{props.taskArray[props.task].title}</h2>
-        <h2 className='play-h2-time'>Time Left: {props.timeLeft} </h2>
+        <h2 className='play-h2-time' style={{color: props.color}}>Time Left: {props.timeLeft} </h2>
         <h2 className='play-h2-time-total'>{props.taskArray[props.task].time} min</h2>
       </div>
       <div className='play-div-options'>
-        {!props.paused && <button className='play-button' onClick={props.pauseTask}><FontAwesomeIcon icon={faPause}/></button>}
-        {props.paused && <button className='play-button' onClick={props.unpauseTask}><FontAwesomeIcon icon={faPlay}/></button>}
-        <button className='play-button'><FontAwesomeIcon icon={faCheck}/></button>
+        <button className='play-button' onClick={props.taskFinished}><FontAwesomeIcon icon={faCheck}/></button>
         <button className='play-button' onClick={props.skipTask}><FontAwesomeIcon icon={faFastForward}/></button>
       </div>
       <h2 className='play-h2-up-next'>Up next: {!props.nothingNext && props.taskArray[props.nextTask].title}</h2>

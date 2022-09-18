@@ -9,11 +9,10 @@ import PlayPage from './PlayPage';
 export default function Home() {
   
     const ref = useRef();
-    const {paused, setPause, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
+    const {timeLeftColor, setTimeLeftColor, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
     useEffect(()=>{
       //console.log('change detected');
     },[homeStatus])
-
     var myInterval;
     let skipCount = 0;
     function handleClick(){
@@ -43,7 +42,7 @@ export default function Home() {
         handleClick();
       }
     }
-    var renderedRoutines = dataArray.map(item=> <Routine routineClick = {openRoutinePage} title={item.title} subtitle={item.time} routineClass='new' key={item.title}/>);
+    var renderedRoutines = dataArray.map(item=> <Routine  routineClick = {openRoutinePage} title={item.title} subtitle={item.time} routineClass='new' key={item.title}/>);
     function openRoutinePage(event){
       let selectedRoutine = event.target.id;
       console.log('THIS CALLED')
@@ -86,6 +85,7 @@ export default function Home() {
       skipCount = 0;
       setTaskQueue(0);
       startTimer();
+      setTimeLeftColor('black');
       setNothingNext(false);
       setNext(0);
       calculateEstimatedTime();
@@ -118,18 +118,13 @@ export default function Home() {
         var newTime = startTime -Math.floor(delta/1000)
         console.log('TIMER RUNNING')
         console.log(myInterval);
-        if (newTime >= 0){
         setTimeLeft( timeConvert(newTime));
-        }
-        else{
-          stopTimer();
-        }
       }, 1000)
     }
     function stopTimer(){
       console.log('STOPPING TIMER');
-      console.log(myInterval);
       console.log(timerID);
+      setTimeLeftColor('black');
       setTimeLeft(timeConvert(0));
       clearInterval(timerID);
     }
@@ -138,8 +133,13 @@ export default function Home() {
       let timeMinutes= '';
       let timeHours = '';
       let timeSeconds = '';
+      let isNegative = false;
+      if (seconds < 0){
+        isNegative = true;
+        seconds *= -1;
+        setTimeLeftColor('#FF2626')
+      }
       let hours = Math.floor(seconds / 3600);
-
       seconds %= 3600;
       let minutes = Math.floor(seconds / 60);
       seconds %= 60;
@@ -156,6 +156,9 @@ export default function Home() {
       if (seconds < 10){
         timeSeconds= '0' + seconds.toString();
       }
+      if (isNegative){
+        timeString += '-';
+      }
       timeString += timeHours;
       timeString += ':';
       timeString += timeMinutes;
@@ -169,6 +172,11 @@ export default function Home() {
       setTaskQueue(0);
       handleHomeOpen();
       exitPlay()
+    }
+    function taskFinished(){
+      //should save the time of completion
+      stopTimer();
+      console.log(timeLeft);
     }
    function skipTask(){
     //first, check if this is the last task
@@ -195,14 +203,8 @@ export default function Home() {
       startTimer();
     }
    }
-   function pauseTask(){
-    setPause(true);
-    console.log('PAUSED');
-   }
 
-   function unpauseTask(){
-    setPause(false);
-   }
+   //todo: make a state for an array that displays the timeLeft on each task, everytime pause is called, stop the interval. Modify start so that the timeleft array is what is called on instead of taskarray, and timeLeft carries on where it left on using unpause
 
   return (
     <div>
@@ -220,7 +222,7 @@ export default function Home() {
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>}
         {!homeStatus && !playStatus && <RoutinePage startPlay={startPlay}checkTaskValidity={checkTaskValidity} setTime={setTime}setTask={setTask}task={currentTask}taskTime={currentTime} taskCount={taskCount}timeChange={timeChange} taskChange={taskChange} timeSet={setTotalTime} totalTime={currentTotalTime} deleteTaskFunct={handleTaskDelete} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time} taskArray={taskArray} addTask={addTask}/>}
-        {!homeStatus && playStatus && <PlayPage unpauseTask={unpauseTask}paused={paused} pauseTask={pauseTask}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask}skipTask={skipTask}nothingNext={nothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}exitPlayPage={exitPlayPage}title={routineData.title}/>}
+        {!homeStatus && playStatus && <PlayPage color={timeLeftColor}taskFinished={taskFinished}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask}skipTask={skipTask}nothingNext={nothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}exitPlayPage={exitPlayPage}title={routineData.title}/>}
     </div>
   )
 }
