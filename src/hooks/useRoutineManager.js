@@ -30,6 +30,9 @@ const useRoutineManager = () => {
     const [nothingNext, setNothingNext] = useState(false);
     const [taskLength, setTaskLength] = useState(0);
     const [estimatedTime, setEstimatedTime] = useState('');
+    const [timeLeft, setTimeLeft] = useState('');
+    const [timerID, setTimerID] = useState(0);
+    const [paused, setPause] = useState(false);
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -233,7 +236,7 @@ const useRoutineManager = () => {
         setEstimatedTime(newTimeString);
     }
 
-    return {calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    return {paused, setPause, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
