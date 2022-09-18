@@ -7,12 +7,15 @@ import RoutinePage from './RoutinePage';
 import PlayPage from './PlayPage';
 
 export default function Home() {
+  
     const ref = useRef();
-    const {estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
+    const {paused, setPause, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
     useEffect(()=>{
       //console.log('change detected');
     },[homeStatus])
 
+    var myInterval;
+    let skipCount = 0;
     function handleClick(){
         handleCountClick();
         ref.current.value = '';
@@ -80,11 +83,14 @@ export default function Home() {
     function startPlay(){
       //set up play page
       homePageUpdate(routineOpened, currentTotalTime, taskArray);
-      
+      skipCount = 0;
       setTaskQueue(0);
+      startTimer();
       setNothingNext(false);
       setNext(0);
       calculateEstimatedTime();
+     
+      console.log('called');
       console.log(taskArray);
       if (taskArray.length > 1){
         //there is more than 1 task, meaning there's at least one task that's up next
@@ -99,7 +105,68 @@ export default function Home() {
       
       enterPlayPage()
     }
+    function startTimer(){
+      console.log(taskArray);
+      console.log(taskQueue);
+      console.log(skipCount);
+      setTimeLeft(timeConvert(taskArray[skipCount].time * 60));
+      let startTime = taskArray[skipCount].time * 60;
+      var start = Date.now();
+      myInterval = setInterval(function(){
+        setTimerID(myInterval);
+        var delta = Date.now() - start;
+        var newTime = startTime -Math.floor(delta/1000)
+        console.log('TIMER RUNNING')
+        console.log(myInterval);
+        if (newTime >= 0){
+        setTimeLeft( timeConvert(newTime));
+        }
+        else{
+          stopTimer();
+        }
+      }, 1000)
+    }
+    function stopTimer(){
+      console.log('STOPPING TIMER');
+      console.log(myInterval);
+      console.log(timerID);
+      setTimeLeft(timeConvert(0));
+      clearInterval(timerID);
+    }
+    function timeConvert(seconds){
+      let timeString = '';
+      let timeMinutes= '';
+      let timeHours = '';
+      let timeSeconds = '';
+      let hours = Math.floor(seconds / 3600);
+
+      seconds %= 3600;
+      let minutes = Math.floor(seconds / 60);
+      seconds %= 60;
+
+      timeHours = hours.toString();
+      timeMinutes = minutes.toString();
+      timeSeconds = seconds.toString();
+      if (hours < 10){
+        timeHours = '0' + hours.toString();
+      }
+      if (minutes < 10){
+        timeMinutes = '0' + minutes.toString();
+      }
+      if (seconds < 10){
+        timeSeconds= '0' + seconds.toString();
+      }
+      timeString += timeHours;
+      timeString += ':';
+      timeString += timeMinutes;
+      timeString += ':';
+      timeString += timeSeconds;
+      return timeString;
+    }
+
     function exitPlayPage(){
+      stopTimer();
+      setTaskQueue(0);
       handleHomeOpen();
       exitPlay()
     }
@@ -111,15 +178,32 @@ export default function Home() {
     }
     else if (taskQueue === taskArray.length-2){
       //second to last
-      setNothingNext(true);
       setTaskQueue(taskQueue+1);
+      skipCount+=1;
+      setNothingNext(true);
+      stopTimer();
+      startTimer();
+      console.log(taskQueue);
     }
     else{
-      setNothingNext(false);
       setTaskQueue(taskQueue+1);
+      skipCount+=1;
       setNext(nextTask+1);
+      setNothingNext(false);
+      stopTimer();
+      console.log(taskQueue);
+      startTimer();
     }
    }
+   function pauseTask(){
+    setPause(true);
+    console.log('PAUSED');
+   }
+
+   function unpauseTask(){
+    setPause(false);
+   }
+
   return (
     <div>
       {homeStatus &&<div>
@@ -136,7 +220,7 @@ export default function Home() {
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>}
         {!homeStatus && !playStatus && <RoutinePage startPlay={startPlay}checkTaskValidity={checkTaskValidity} setTime={setTime}setTask={setTask}task={currentTask}taskTime={currentTime} taskCount={taskCount}timeChange={timeChange} taskChange={taskChange} timeSet={setTotalTime} totalTime={currentTotalTime} deleteTaskFunct={handleTaskDelete} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time} taskArray={taskArray} addTask={addTask}/>}
-        {!homeStatus && playStatus && <PlayPage estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask}skipTask={skipTask}nothingNext={nothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}exitPlayPage={exitPlayPage}title={routineData.title}/>}
+        {!homeStatus && playStatus && <PlayPage unpauseTask={unpauseTask}paused={paused} pauseTask={pauseTask}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask}skipTask={skipTask}nothingNext={nothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}exitPlayPage={exitPlayPage}title={routineData.title}/>}
     </div>
   )
 }
