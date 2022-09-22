@@ -32,10 +32,14 @@ const useRoutineManager = () => {
     const [estimatedTime, setEstimatedTime] = useState('');
     const [timeLeft, setTimeLeft] = useState('');
     const [timerID, setTimerID] = useState(0);
-    const [paused, setPause] = useState(false);
+    const [playing, setPlaying] = useState(false);
     const [currentTimeLeft, setCurrentTimeLeft] = useState(0);
     const [timeLeftColor, setTimeLeftColor] = useState('black');
     const [routineColor, setRoutineColor] = useState('#FF2626');
+    const [completedTaskArray, setCompletedTaskArray] = useState([]);
+    const [summaryStatus, setSummaryState] = useState(false);
+    const [timeFinished, setTimeFinished] = useState({});
+    const [summaryArray, setSummaryArray] = useState([]);
 
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
@@ -238,8 +242,28 @@ const useRoutineManager = () => {
         }
         setEstimatedTime(newTimeString);
     }
-
-    return {routineColor, setRoutineColor, timeLeftColor, setTimeLeftColor, currentTimeLeft, setCurrentTimeLeft, paused, setPause, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    const createSuccessArray = () =>{
+        setCompletedTaskArray(taskArray.forEach((element)=>{
+            console.log(element);
+            let completeTask = {title: element.title, time: element.time, completed: false, timeCompleted: 0};
+            console.log(completeTask);
+            return completeTask;
+        }))
+        console.log('THIS CALLED');
+        
+    }
+    function exitPlayPage(){
+        setHomeState(true);
+        setPlayState(false);
+      }
+      function finishPlayPage(){
+        setSummaryState(true);
+        setPlayState(false);
+      }
+      function updateSummaryArray(data){
+        setSummaryArray([...summaryArray, data]);
+      }
+    return {setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryState, createSuccessArray, completedTaskArray, setCompletedTaskArray, routineColor, setRoutineColor, timeLeftColor, setTimeLeftColor, currentTimeLeft, setCurrentTimeLeft, playing, setPlaying, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
