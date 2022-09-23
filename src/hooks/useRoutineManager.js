@@ -40,7 +40,8 @@ const useRoutineManager = () => {
     const [summaryStatus, setSummaryState] = useState(false);
     const [timeFinished, setTimeFinished] = useState({});
     const [summaryArray, setSummaryArray] = useState([]);
-
+    const [timeStarted, setTimeStarted] = useState('');
+    const [timeDone, setTimeDone] = useState('');
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
         console.log(currentRoutine);
@@ -242,6 +243,31 @@ const useRoutineManager = () => {
         }
         setEstimatedTime(newTimeString);
     }
+    const calculateCurrentTime = (start) =>{
+        let currentTime = new Date();
+        let currentTimeString = currentTime.toLocaleTimeString();
+        let colonCount = 0;
+        let newCurrentTimeString = '';
+        for (let i = 0; i < currentTimeString.length; i++){
+            if (currentTimeString[i] === ':'){
+                colonCount += 1;
+            }
+            if (colonCount < 2){
+                newCurrentTimeString += currentTimeString[i];
+            }
+            else{
+                if ((currentTimeString[i] === 'A')||(currentTimeString[i] === 'M')||(currentTimeString[i] === 'P')||(currentTimeString[i] === ' ')){
+                    newCurrentTimeString += currentTimeString[i];
+                }
+            }
+        }
+        if (start){
+        setTimeStarted(newCurrentTimeString);
+        }
+        else{
+            setTimeDone(newCurrentTimeString);
+        }
+    }
     const createSuccessArray = () =>{
         setCompletedTaskArray(taskArray.forEach((element)=>{
             console.log(element);
@@ -256,6 +282,10 @@ const useRoutineManager = () => {
         setHomeState(true);
         setPlayState(false);
       }
+      function exitSummaryPage(){
+        setHomeState(true);
+        setSummaryState(false);
+      }
       function finishPlayPage(){
         setSummaryState(true);
         setPlayState(false);
@@ -263,7 +293,7 @@ const useRoutineManager = () => {
       function updateSummaryArray(data){
         setSummaryArray([...summaryArray, data]);
       }
-    return {setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryState, createSuccessArray, completedTaskArray, setCompletedTaskArray, routineColor, setRoutineColor, timeLeftColor, setTimeLeftColor, currentTimeLeft, setCurrentTimeLeft, playing, setPlaying, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    return {timeDone, calculateCurrentTime, timeStarted, setTimeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryState, createSuccessArray, completedTaskArray, setCompletedTaskArray, routineColor, setRoutineColor, timeLeftColor, setTimeLeftColor, currentTimeLeft, setCurrentTimeLeft, playing, setPlaying, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;

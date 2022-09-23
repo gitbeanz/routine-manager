@@ -8,9 +8,8 @@ import PlayPage from './PlayPage';
 import SummaryPage from './SummaryPage';
 
 export default function Home() {
-  
     const ref = useRef();
-    const {setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryStatus, createSuccessArray, completedTaskArray, timeLeftColor, setTimeLeftColor, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
+    const {timeDone, calculateCurrentTime,timeStarted, setTimeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryStatus, createSuccessArray, completedTaskArray, timeLeftColor, setTimeLeftColor, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
     useEffect(()=>{
       //console.log('change detected');
     },[homeStatus])
@@ -83,7 +82,7 @@ export default function Home() {
     function startPlay(){
       //set up play page
       homePageUpdate(routineOpened, currentTotalTime, taskArray);
-      setSummaryArray();
+      setSummaryArray([]);
       /*skipCount = 0;
       setTaskQueue(0);
       startTimer();
@@ -111,105 +110,7 @@ export default function Home() {
       enterPlayPage()
     }
  
-    /*function startTimer(){
-      console.log(taskArray);
-      console.log(taskQueue);
-      console.log(skipCount);
-      setTimeLeft(timeConvert(taskArray[skipCount].time * 60));
-      let startTime = taskArray[skipCount].time * 60;
-      var start = Date.now();
-      myInterval = setInterval(function(){
-        setTimerID(myInterval);
-        var delta = Date.now() - start;
-        var newTime = startTime -Math.floor(delta/1000)
-        console.log('TIMER RUNNING')
-        console.log(myInterval);
-        setTimeLeft( timeConvert(newTime));
-      }, 1000)
-    }
-    function stopTimer(){
-      console.log('STOPPING TIMER');
-      console.log(timerID);
-      setTimeLeftColor('black');
-      setTimeLeft(timeConvert(0));
-      clearInterval(timerID);
-    }
-    function timeConvert(seconds){
-      let timeString = '';
-      let timeMinutes= '';
-      let timeHours = '';
-      let timeSeconds = '';
-      let isNegative = false;
-      if (seconds < 0){
-        isNegative = true;
-        seconds *= -1;
-        setTimeLeftColor('#FF2626')
-      }
-      let hours = Math.floor(seconds / 3600);
-      seconds %= 3600;
-      let minutes = Math.floor(seconds / 60);
-      seconds %= 60;
-
-      timeHours = hours.toString();
-      timeMinutes = minutes.toString();
-      timeSeconds = seconds.toString();
-      if (hours < 10){
-        timeHours = '0' + hours.toString();
-      }
-      if (minutes < 10){
-        timeMinutes = '0' + minutes.toString();
-      }
-      if (seconds < 10){
-        timeSeconds= '0' + seconds.toString();
-      }
-      if (isNegative){
-        timeString += '-';
-      }
-      timeString += timeHours;
-      timeString += ':';
-      timeString += timeMinutes;
-      timeString += ':';
-      timeString += timeSeconds;
-      return timeString;
-    }
-
-    function exitPlayPage(){
-      stopTimer();
-      setTaskQueue(0);
-      handleHomeOpen();
-      exitPlay()
-    }
-    function taskFinished(){
-      //should save the time of completion
-      stopTimer();
-      setSummaryStatus(true);
-      
-    }
-   function skipTask(){
-    //first, check if this is the last task
-    if (taskQueue === taskArray.length-1){
-      //there is nothing to skip, finish the routine, send to summary page
-      setNothingNext(true);
-    }
-    else if (taskQueue === taskArray.length-2){
-      //second to last
-      setTaskQueue(taskQueue+1);
-      skipCount+=1;
-      setNothingNext(true);
-      stopTimer();
-      startTimer();
-      console.log(taskQueue);
-    }
-    else{
-      setTaskQueue(taskQueue+1);
-      skipCount+=1;
-      setNext(nextTask+1);
-      setNothingNext(false);
-      stopTimer();
-      console.log(taskQueue);
-      startTimer();
-    }
-   }*/
+   
 
    //todo: make a state for an array that displays the timeLeft on each task, everytime pause is called, stop the interval. Modify start so that the timeleft array is what is called on instead of taskarray, and timeLeft carries on where it left on using unpause
 
@@ -229,8 +130,8 @@ export default function Home() {
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>} 
         {!homeStatus && !playStatus && !summaryStatus && <RoutinePage startPlay={startPlay}checkTaskValidity={checkTaskValidity} setTime={setTime}setTask={setTask}task={currentTask}taskTime={currentTime} taskCount={taskCount}timeChange={timeChange} taskChange={taskChange} timeSet={setTotalTime} totalTime={currentTotalTime} deleteTaskFunct={handleTaskDelete} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time} taskArray={taskArray} addTask={addTask}/>}
-        {!homeStatus && playStatus && !summaryStatus && <PlayPage updateSummaryArray={updateSummaryArray} finishPlayPage={finishPlayPage} exitPlayPage={exitPlayPage}setTimeFinished={setTimeFinished}setTimeLeftColor={setTimeLeftColor}color={timeLeftColor}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask} setNextTask={setNext} nothingNext={nothingNext} setNothingNext={setNothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}title={routineData.title}/>}
-        {!homeStatus && !playStatus && summaryStatus && <SummaryPage timeFinished={timeFinished} summaryArray={summaryArray}/>}
+        {!homeStatus && playStatus && !summaryStatus && <PlayPage calculateCurrentTime={calculateCurrentTime}updateSummaryArray={updateSummaryArray} finishPlayPage={finishPlayPage} exitPlayPage={exitPlayPage}setTimeFinished={setTimeFinished}setTimeLeftColor={setTimeLeftColor}color={timeLeftColor}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask} setNextTask={setNext} nothingNext={nothingNext} setNothingNext={setNothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}title={routineData.title}/>}
+        {!homeStatus && !playStatus && summaryStatus && <SummaryPage timeDone={timeDone}timeStarted={timeStarted} title={routineData.title} timeFinished={timeFinished} summaryArray={summaryArray} exitSummaryPage={exitSummaryPage}/>}
     </div>
   )
 }

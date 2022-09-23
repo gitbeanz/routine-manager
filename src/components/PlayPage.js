@@ -56,6 +56,7 @@ export default function Play(props) {
       if (props.task === 0){
         console.log('hi');
      setTimeLeft(timeConvert(startTime));
+     props.calculateCurrentTime(true);
       }
      var start = Date.now();
      var myInterval = setInterval(function(){
@@ -80,6 +81,7 @@ export default function Play(props) {
     console.log(tasksFinished);
     if (props.task === props.taskArray.length - 1){
     props.finishPlayPage(tasksFinished);
+    props.calculateCurrentTime(false);
     }
     else{
       console.log('we will skip');
