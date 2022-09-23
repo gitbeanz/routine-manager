@@ -472,3 +472,45 @@ footer{
   position: relative;
   color: #3070EB;
 }
+.summary-h1{
+  text-align: center;
+}
+.summary-h2{
+  text-align: center;
+  color: #C8C4C4;
+  margin-bottom: 50px;
+}
+.summary-task-h2{
+  text-align: center;
+}
+.summary-tasks{
+  height: 250px;
+}
+.summary-h3{
+  text-align: center;
+  margin-top: 30px;
+}
+
+.summary-home-button{
+  width: 70px;
+  height: 45px;
+  border-radius: 10px;
+  background-color: #434743;
+  font-size: 2em;
+  color: white;
+  cursor:pointer;
+  margin: 0px 10px;
+  text-align: center;
+}
+.summary-bottom-div{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 47px;
+  overflow-y: scroll;
+}
+
+.summary-task-h3{
+  text-align: center;
+  padding: 10px;
+}
