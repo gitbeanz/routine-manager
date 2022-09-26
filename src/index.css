@@ -485,6 +485,7 @@ footer{
 }
 .summary-tasks{
   height: 250px;
+  overflow-y: scroll;
 }
 .summary-h3{
   text-align: center;
@@ -512,5 +513,27 @@ footer{
 
 .summary-task-h3{
   text-align: center;
-  padding: 10px;
+  padding-top: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.summary-difference-h3{
+  text-align: center;
+  position: relative;
+  bottom: 10px;
+}
+.summary-time-h3{
+  color: #C8C4C4;
+  text-align: center;
+  position: relative;
+  bottom: 10px;
+  padding-right: 10px;
+}
+.summary-description-div{
+  width: auto;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
 }
