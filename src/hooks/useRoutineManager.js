@@ -295,12 +295,14 @@ const useRoutineManager = () => {
       function updateSummaryArray(element){
         setSummaryArray([...summaryArray, element]);
         let returnString = '';
+        let returnColor = 'black';
         if (element.time === '00:00:00'){
             return returnString;
         }
         else{
             if (element.time[0] === '-'){
                 //user has gone over
+                returnColor = '#FF2626';
                 returnString = '(+';
                 let colonCount = 0;
                 let hourString = '';
@@ -334,6 +336,7 @@ const useRoutineManager = () => {
             returnString += (minutes.toString() + ' min ' + seconds.toString() + ' sec)');
           }
           else{
+            returnColor = '#3070EB';
             console.log('this path chosen');
             returnString += '(-'
             let colonCount = 0;
@@ -407,7 +410,7 @@ const useRoutineManager = () => {
         }
         }
         console.log(returnString);
-        setDifferenceArray([...differenceArray, returnString]);
+        setDifferenceArray([...differenceArray, {color: returnColor,difference: returnString}]);
       }
      
       function timeConvert(seconds){
