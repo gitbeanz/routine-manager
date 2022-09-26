@@ -6,7 +6,7 @@ export default function SummaryPage(props) {
     console.log('THIS LOADED');
     console.log(props.summaryArray);
     console.log(props.differenceArray);
-    var summary = props.summaryArray.map((item,index)=><Summary key={item.title} title={item.title} difference={props.differenceArray[index]}/>)
+    var summary = props.summaryArray.map((item,index)=><Summary key={item.title} title={item.title} difference={props.differenceArray[index].difference} color = {props.differenceArray[index].color} time = {props.taskArray[index].time}/>)
   return (
     <div>
         <h1 className='summary-h1'>{props.title}</h1>
