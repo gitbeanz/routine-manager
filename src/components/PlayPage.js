@@ -50,11 +50,9 @@ export default function Play(props) {
     return timeString;
   }
   function startTimer(){
-    console.log(timerID);
     if (timerID === 0){
       setPlaying(true);
       if (props.task === 0){
-        console.log('hi');
      setTimeLeft(timeConvert(startTime));
      props.calculateCurrentTime(true);
       }
@@ -78,13 +76,11 @@ export default function Play(props) {
     clearInterval(timerID);
     props.setTimeFinished(timeLeft);
     props.updateSummaryArray({title: props.taskArray[props.task].title, time: timeLeft});
-    console.log(tasksFinished);
     if (props.task === props.taskArray.length - 1){
     props.finishPlayPage(tasksFinished);
     props.calculateCurrentTime(false);
     }
     else{
-      console.log('we will skip');
       skipTask();
     }
     } 
@@ -115,7 +111,6 @@ export default function Play(props) {
       props.setNothingNext(false);
       clearInterval(timerID);
       setTimerID(0);
-      console.log(props.task);
       let startTime = props.taskArray[queue].time * 60;
       setTimeLeft(timeConvert(startTime));
   }

@@ -11,14 +11,12 @@ export default function Home() {
     const ref = useRef();
     const {setDifferenceArray, differenceArray, timeDone, calculateCurrentTime,timeStarted, setTimeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryStatus, createSuccessArray, completedTaskArray, timeLeftColor, setTimeLeftColor, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
     useEffect(()=>{
-      //console.log('change detected');
     },[homeStatus])
     var myInterval;
     let skipCount = 0;
     function handleClick(){
         handleCountClick();
         ref.current.value = '';
-        //console.log(routineArray);
     }
     function handleChange(event){
       handleRoutineName(event.target.value);
@@ -26,7 +24,6 @@ export default function Home() {
 
     function handleErrorClick(){
       showModal(false);
-      console.log('this clicked');
   }
 
   useEffect(()=>{
@@ -45,7 +42,6 @@ export default function Home() {
     var renderedRoutines = dataArray.map(item=> <Routine  routineClick = {openRoutinePage} title={item.title} subtitle={item.time} routineClass='new' key={item.title}/>);
     function openRoutinePage(event){
       let selectedRoutine = event.target.id;
-      console.log('THIS CALLED')
       if (event.target.firstChild.innerHTML === '0 min'){
         setTotalTime(0);
         setTaskArray([]);
@@ -61,22 +57,13 @@ export default function Home() {
       routinePageOpen();
     }
     function handleHomeOpen(){
-      console.log(routineOpened);
-      console.log(currentTotalTime);
-      console.log(taskArray);
       homePageUpdate(routineOpened, currentTotalTime, taskArray);
       homePageOpen();
-      console.log('PRINTING DATA ARRAY');
-      dataArray.forEach((element)=>{
-        console.log(element);
-      })
     }
     function handleRoutineDelete(id){
-      console.log(id);
       routineDelete(id);
     }
     function handleTaskDelete(id){
-      console.log('now this ran');
       taskDelete(id);
     }
     function startPlay(){
@@ -84,18 +71,6 @@ export default function Home() {
       homePageUpdate(routineOpened, currentTotalTime, taskArray);
       setSummaryArray([]);
       setDifferenceArray([]);
-      /*skipCount = 0;
-      setTaskQueue(0);
-      startTimer();
-      setTimeLeftColor('black');
-      createSuccessArray();
-      setNothingNext(false);
-      setNext(0);
-      calculateEstimatedTime();
-     
-      console.log('called');
-      console.log(taskArray);
-      */
       setTaskQueue(0);
       if (taskArray.length > 1){
         //there is more than 1 task, meaning there's at least one task that's up next
@@ -105,7 +80,6 @@ export default function Home() {
       else{
         //only one task, nothing next!
         setNothingNext(true);
-        console.log('there is nothing next');
       }
       calculateEstimatedTime();
       enterPlayPage()

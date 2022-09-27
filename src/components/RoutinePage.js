@@ -41,7 +41,6 @@ export default function RoutinePage(props) {
     props.deleteFunct(props.title);
   }
   function confirmTaskDelete(){
-    console.log('this ran');
     props.deleteTaskFunct(taskSelected);
     showTaskDeleteModal(false);
   }
@@ -54,7 +53,6 @@ export default function RoutinePage(props) {
   }
   function handleTimeChange(event){
     if (event.target.value.length > 2){
-      //console.log('too long');
       event.target.value = event.target.value.slice(0,2);
     }
     ;
@@ -70,7 +68,6 @@ export default function RoutinePage(props) {
   function handleAddTask(){
     if (checkTaskValidity(props.task,props.taskTime,props.taskArray) === true){
     let taskData = props.addTask();
-    console.log(taskArray);
     props.timeSet(props.totalTime+parseInt(taskData.time));
     setAddModal(false);
     resetInput();
@@ -79,7 +76,6 @@ export default function RoutinePage(props) {
     resetInput();
   }
   }
-  //console.log(typeof(taskArray));
   var renderedTasks = props.taskArray.map(item => <Task clickFunct={deleteTask}title={item.title} subtitle={item.time} routineClass='new' key={item.title}/>);
   return (
     <div>
