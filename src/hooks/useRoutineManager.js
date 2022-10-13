@@ -43,6 +43,7 @@ const useRoutineManager = () => {
     const [timeStarted, setTimeStarted] = useState('');
     const [timeDone, setTimeDone] = useState('');
     const [differenceArray, setDifferenceArray] = useState([]);
+
     const handleCountClick = () => {
         //increments routine count and appends to routineArray
         console.log(currentRoutine);
@@ -81,9 +82,11 @@ const useRoutineManager = () => {
     const selectRoutineData = (title, time) => {
         //make new routine data, add to routine array
         setRoutineData(dataArray.find((element)=>{return element.title === title}));
+        
     }
     const makeRoutineData = (title,time) =>{
         setDataArray([...dataArray, {title: title, time: time, taskData: []}]);
+
         console.log(dataArray);
     }
     const routineDelete = (id) => {
@@ -95,7 +98,8 @@ const useRoutineManager = () => {
             else{
                 return false;
             }
-        }));
+        }
+        ));
         setRoutineArray(routineArray.filter(element=>{
             if (element !== id){
                 console.log('found');
@@ -107,6 +111,7 @@ const useRoutineManager = () => {
         }))
         setCount(count -1);
         setHomeState(true);
+        window.localStorage.setItem('dataArray', dataArray);
     }
     const taskDelete = (id) =>{
         let deletedTaskTime = taskArray.find((element)=>{
@@ -213,6 +218,7 @@ const useRoutineManager = () => {
                 return element;
             }
         }))
+        window.localStorage.setItem('dataArray', dataArray);
     }
 
     const enterPlayPage = () =>{
@@ -296,7 +302,9 @@ const useRoutineManager = () => {
         setSummaryArray([...summaryArray, element]);
         let returnString = '';
         let returnColor = 'black';
+
         if (element.time === '00:00:00'){
+
             return returnString;
         }
         else{
@@ -310,6 +318,7 @@ const useRoutineManager = () => {
                 let seconds = 0;
                 let minuteString = '';
                 let secondString = '';
+
                 for (let i = 0; i < element.time.length; i++){
                     if (element.time[i]===':'){
                         colonCount += 1;
@@ -322,16 +331,19 @@ const useRoutineManager = () => {
                         //convert hours into minutes while also making minuteString
                         if (minuteString === ''){
                             minutes += (parseInt(hourString)* 60);
+
                         }
                         minuteString += element.time[i];
                 }
                 if (colonCount === 2 && element.time[i] !== ':'){
                     if (secondString === ''){
                         minutes += (parseInt(minuteString));
+
                     }
                     secondString += element.time[i];
                 }
             }
+
             seconds += parseInt(secondString);
             returnString += (minutes.toString() + ' min ' + seconds.toString() + ' sec)');
           }
@@ -356,6 +368,7 @@ const useRoutineManager = () => {
                         //convert hours to seconds
                         console.log(hourString);
                         totalFinishedSeconds += (parseInt(hourString)* 3600); 
+
                         console.log(totalFinishedSeconds);
                     }
                     minuteString += element.time[i];
@@ -372,6 +385,7 @@ const useRoutineManager = () => {
             totalFinishedSeconds += parseInt(secondString);
             //find the difference between task seconds and total seconds
             let difference = 0;
+
             for (let i = 0; i < taskArray.length; i++){
                 if (taskArray[i].title === element.title){
                     difference = timeConvert((taskArray[i].time * 60)-totalFinishedSeconds);
@@ -395,21 +409,28 @@ const useRoutineManager = () => {
                     //convert hours into minutes while also making minuteString
                     if (minuteString2 === ''){
                         minutes2 += (parseInt(hourString2)* 60);
+
+
                     }
                     minuteString2 += difference[i];
             }
             if (colonCount2 === 2 && difference[i] !== ':'){
                 if (secondString2 === ''){
                     minutes2 += (parseInt(minuteString2));
+
                 }
                 secondString2 += difference[i];
             }
         }
         seconds2 += parseInt(secondString2);
+
             returnString += (minutes2.toString() + ' min ' + seconds2.toString() + ' sec)')
         }
         }
+
         console.log(returnString);
+
+
         setDifferenceArray([...differenceArray, {color: returnColor,difference: returnString}]);
       }
      
@@ -450,7 +471,7 @@ const useRoutineManager = () => {
         timeString += timeSeconds;
         return timeString;
       }
-    return {setDifferenceArray, differenceArray, timeDone, calculateCurrentTime, timeStarted, setTimeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryState, createSuccessArray, completedTaskArray, setCompletedTaskArray, routineColor, setRoutineColor, timeLeftColor, setTimeLeftColor, currentTimeLeft, setCurrentTimeLeft, playing, setPlaying, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
+    return { setDataArray, setDifferenceArray, differenceArray, timeDone, calculateCurrentTime, timeStarted, setTimeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryState, createSuccessArray, completedTaskArray, setCompletedTaskArray, routineColor, setRoutineColor, timeLeftColor, setTimeLeftColor, currentTimeLeft, setCurrentTimeLeft, playing, setPlaying, timerID, setTimerID, timeLeft, setTimeLeft, calculateEstimatedTime, estimatedTime, setEstimatedTime, setTaskLength, taskLength, nextTask, setNext, nothingNext, setNothingNext, taskQueue, setTaskQueue, exitPlay, playStatus, enterPlayPage, setTime, setTask, taskDelete, taskSelected, setSelectedTask, taskDeleteModal, showTaskDeleteModal, showTaskModal, checkTaskValidity, taskModal, taskError, setTaskCount, setTaskArray, dataArray, selectRoutineData, homePageUpdate, routineSubtitle, setRoutineSubtitle,routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, taskCount, taskArray, addTask, count, handleCountClick, currentRoutine, handleRoutineName, routineArray, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, makeRoutineData, routineData, addModal, setAddModal, trashModal, setTrashModal, routineDelete, timeChange, currentTime, taskChange, currentTask};
 }
 
 export default useRoutineManager;
