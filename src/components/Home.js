@@ -9,11 +9,9 @@ import SummaryPage from './SummaryPage';
 
 export default function Home() {
     const ref = useRef();
-    const {setDifferenceArray, differenceArray, timeDone, calculateCurrentTime,timeStarted, setTimeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, setSummaryStatus, createSuccessArray, completedTaskArray, timeLeftColor, setTimeLeftColor, setTimerID, timerID, timeLeft, setTimeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, exitPlay, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
+    const { setDifferenceArray, differenceArray, timeDone, calculateCurrentTime,timeStarted, exitSummaryPage, setSummaryArray, finishPlayPage, summaryArray, updateSummaryArray, exitPlayPage, timeFinished, setTimeFinished, summaryStatus, timeLeftColor, setTimeLeftColor, timeLeft, estimatedTime, calculateEstimatedTime, nextTask, setNext, nothingNext, setNothingNext, setTaskQueue, taskQueue, playStatus, enterPlayPage, checkTaskValidity, setTime, setTask, taskDelete, currentTime,currentTask,  setTaskCount, taskCount, timeChange, taskChange, setTaskArray, taskArray, addTask, selectRoutineData, dataArray, homePageUpdate, routineOpened, setRoutineOpened, setTotalTime, currentTotalTime, routineDelete, count, handleCountClick, handleRoutineName, modal, showModal, errorMessage, homeStatus, routinePageOpen, homePageOpen, routineData} = useRoutineManager();
     useEffect(()=>{
     },[homeStatus])
-    var myInterval;
-    let skipCount = 0;
     function handleClick(){
         handleCountClick();
         ref.current.value = '';
@@ -105,7 +103,7 @@ export default function Home() {
         <footer>© 2022 Designed with &lt;3 By Brandon Gumayagay</footer>
         </div>} 
         {!homeStatus && !playStatus && !summaryStatus && <RoutinePage startPlay={startPlay}checkTaskValidity={checkTaskValidity} setTime={setTime}setTask={setTask}task={currentTask}taskTime={currentTime} taskCount={taskCount}timeChange={timeChange} taskChange={taskChange} timeSet={setTotalTime} totalTime={currentTotalTime} deleteTaskFunct={handleTaskDelete} deleteFunct={handleRoutineDelete}clickFunct={handleHomeOpen} title={routineData.title} time={routineData.time} taskArray={taskArray} addTask={addTask}/>}
-        {!homeStatus && playStatus && !summaryStatus && <PlayPage calculateCurrentTime={calculateCurrentTime}updateSummaryArray={updateSummaryArray} finishPlayPage={finishPlayPage} exitPlayPage={exitPlayPage}setTimeFinished={setTimeFinished}setTimeLeftColor={setTimeLeftColor}color={timeLeftColor}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask} setNextTask={setNext} nothingNext={nothingNext} setNothingNext={setNothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}title={routineData.title}/>}
+        {!homeStatus && playStatus && !summaryStatus && <PlayPage  calculateCurrentTime={calculateCurrentTime}updateSummaryArray={updateSummaryArray} finishPlayPage={finishPlayPage} exitPlayPage={exitPlayPage}setTimeFinished={setTimeFinished}setTimeLeftColor={setTimeLeftColor}color={timeLeftColor}timeLeft={timeLeft} estimatedTime={estimatedTime}task={taskQueue}nextTask={nextTask} setNextTask={setNext} nothingNext={nothingNext} setNothingNext={setNothingNext}setTaskQueue={setTaskQueue}taskArray={taskArray}title={routineData.title}/>}
         {!homeStatus && !playStatus && summaryStatus && <SummaryPage taskArray={taskArray} differenceArray={differenceArray}timeDone={timeDone}timeStarted={timeStarted} title={routineData.title} timeFinished={timeFinished} summaryArray={summaryArray} exitSummaryPage={exitSummaryPage}/>}
     </div>
   )
