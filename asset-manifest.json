@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/routine-manager/static/css/main.3dbddb43.css",
-    "main.js": "/routine-manager/static/js/main.6c104435.js",
+    "main.js": "/routine-manager/static/js/main.b7d35ce6.js",
     "index.html": "/routine-manager/index.html",
     "main.3dbddb43.css.map": "/routine-manager/static/css/main.3dbddb43.css.map",
-    "main.6c104435.js.map": "/routine-manager/static/js/main.6c104435.js.map"
+    "main.b7d35ce6.js.map": "/routine-manager/static/js/main.b7d35ce6.js.map"
   },
   "entrypoints": [
     "static/css/main.3dbddb43.css",
-    "static/js/main.6c104435.js"
+    "static/js/main.b7d35ce6.js"
   ]
 }
