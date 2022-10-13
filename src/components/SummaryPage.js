@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import Summary from './Summary';
 export default function SummaryPage(props) {
+
     var summary = props.summaryArray.map((item,index)=><Summary key={item.title} title={item.title} difference={props.differenceArray[index].difference} color = {props.differenceArray[index].color} time = {props.taskArray[index].time}/>)
   return (
     <div>
@@ -12,7 +13,7 @@ export default function SummaryPage(props) {
         <div className='summary-tasks'>
           {summary}
         </div>
-        <h3 className='summary-h3'> Total Time: </h3>
+        <h3 className='summary-h3'> Routine Completed!</h3>
         <div className='summary-bottom-div'>
         <button className='summary-home-button' onClick={props.exitSummaryPage}><FontAwesomeIcon icon={faHome}/></button>
         </div>
